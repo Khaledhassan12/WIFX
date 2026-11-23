@@ -15,7 +15,8 @@ object LocaleConfigs {
         LocaleItem("zh-TW", "中文（繁體）"),
         LocaleItem("lzh", "文言（華夏）", false),
         LocaleItem("en", "English"),
-        LocaleItem("en-CN", "Chinglish", false)
+        LocaleItem("en-CN", "Chinglish", false),
+        LocaleItem("ar", "العربية")
     )
 
     fun getLocaleListCompat(index: Int): LocaleListCompat {
