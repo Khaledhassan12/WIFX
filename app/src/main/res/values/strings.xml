@@ -1,5 +1,5 @@
 <resources>
-    <string name="default_script_content" translatable="false">// ==ToolboxScript==\n// @id {ID}\n// @name Script name\n// @description Script description\n// @author Author\n// @version 1.0.0\n// ==/ToolboxScript==\n\nconsole.log("Adding a password...") // log output with console.log\ntask.addItem("12345678") // add a candidate with task.addItem\nconsole.log("Waiting 1 second...")\nawait wait(1000); // code runs inside an async function, so await works\nconsole.log("One more!");\ntask.addItem("88888888")\n\ntry {\n\tconsole.log("Testing network...");\n\tconst response = await fetch('https://uapis.cn/api/v1/network/myip'); // WebView fetch is available, but CORS applies\n\tconst data = await response.json();\n\tconsole.log("IP: " + data.ip);\n\tconsole.log("Region: " + data.region);\n} catch (err) {\n\tconsole.log("Request failed: " + err.message);\n}\nconsole.log("Done");</string>
+    <string name="default_script_content" translatable="false">// ==ToolboxScript==\n// @id {ID}\n// @name Script name\n// @description Script description\n// @author Author\n// @version 1.0.0\n// ==/ToolboxScript==\n\nconsole.log(\"Adding a password...\") // log output with console.log\ntask.addItem(\"12345678\") // add a candidate with task.addItem\nconsole.log(\"Waiting 1 second...\")\nawait wait(1000); // code runs inside an async function, so await works\nconsole.log(\"One more!\");\ntask.addItem(\"88888888\")\n\ntry {\n\tconsole.log(\"Testing network...\");\n\tconst response = await fetch(\'https://uapis.cn/api/v1/network/myip\'); // WebView fetch is available, but CORS applies\n\tconst data = await response.json();\n\tconsole.log(\"IP: \" + data.ip);\n\tconsole.log(\"Region: \" + data.region);\n} catch (err) {\n\tconsole.log(\"Request failed: \" + err.message);\n}\nconsole.log(\"Done\");</string>
     <string name="copyright" translatable="false">© 2025-%1$s WiFi Toolbox - Apache 2.0</string>
 
     <string name="app_name">WiFi Toolbox</string>
@@ -81,12 +81,12 @@
     <string name="api_connect_device">[API] Connect Device</string>
     <string name="shizuku_newprocess">[Shizuku] newProcess</string>
     <string name="run_method">Method</string>
-    <string name="run_method_settings_tip">Earlier methods recommended. "Select" is required, "Idle" optional. Switch if it fails.</string>
+    <string name="run_method_settings_tip">Earlier methods recommended. \"Select\" is required, \"Idle\" optional. Switch if it fails.</string>
     <string name="read_log_mode">Read Log</string>
     <string name="connect_wifi_mode">Connect WiFi</string>
     <string name="scan_wifi_mode">Scan WiFi</string>
     <string name="allow_use_command">Allow Command</string>
-    <string name="allow_use_command_tip">Use 'cmd wifi start-scan' if API fails</string>
+    <string name="allow_use_command_tip">Use \'cmd wifi start-scan\' if API fails</string>
     <string name="enable_wifi_mode">WiFi Toggle</string>
     <string name="command_method">CMD Method</string>
     <string name="running_behavior">Behavior</string>
@@ -223,7 +223,7 @@
     <string name="log_logcat_started">Logcat started</string>
     <string name="log_broadcast_started">Broadcast started</string>
     <string name="connect_mode_empty">Connect mode empty, check settings</string>
-    <string name="broadcast_not_support_handshake">Broadcast mode doesn't support handshake limit. Use timeout or Logcat.</string>
+    <string name="broadcast_not_support_handshake">Broadcast mode doesn\'t support handshake limit. Use timeout or Logcat.</string>
     <string name="log_flow_uninitialized">Log flow uninit</string>
     <string name="running">Running</string>
     <string name="forget_network_log">Forget: %1$s</string>
@@ -381,7 +381,7 @@
     <string name="crash_title">Crashed</string>
     <string name="crash_text">An error occurred. App restarted.\n%1$s\nReport this to the developer.</string>
     <string name="error_aidl_not_bound">AIDL service not bound. Enable in settings.</string>
-    <string name="error_id_exists">ID "%1$s" already exists</string>
+    <string name="error_id_exists">ID \"%1$s\" already exists</string>
     <string name="unsupported_file_format">Unsupported format</string>
     <string name="import_failed">Import failed</string>
     <string name="parse_failed">Parse failed</string>

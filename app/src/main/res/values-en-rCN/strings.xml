@@ -79,7 +79,7 @@
     <string name="api_connect_device">[API] connect device</string>
     <string name="shizuku_newprocess">[Shizuku] newProcess</string>
     <string name="run_method">run way</string>
-    <string name="run_method_settings_tip">front way better, "choose" must, "free" ok. if no work change way.</string>
+    <string name="run_method_settings_tip">front way better, \"choose\" must, \"free\" ok. if no work change way.</string>
     <string name="read_log_mode">read net log</string>
     <string name="connect_wifi_mode">link wifi</string>
     <string name="scan_wifi_mode">scan wifi</string>
@@ -379,7 +379,7 @@
     <string name="crash_title">boom</string>
     <string name="crash_text">big error, app restart\n%1$s\nsend this to worker, talk what you did (fix or no fix is other thing)</string>
     <string name="error_aidl_not_bound">AIDL no bind, open in app set</string>
-    <string name="error_id_exists">ID "%1$s" already have</string>
+    <string name="error_id_exists">ID \"%1$s\" already have</string>
     <string name="unsupported_file_format">no support file way</string>
     <string name="import_failed">import fail</string>
     <string name="parse_failed">parse fail</string>
