@@ -7,13 +7,13 @@ import kotlin.system.exitProcess
 class AppCrash(private val context: Context) {
 
     /**
-     * 开启崩溃捕获
+     * Starts crash capture
      * @param none
      * @return none
      */
     fun startCatch() {
         Thread.setDefaultUncaughtExceptionHandler { _, throwable ->
-            val msg = throwable.localizedMessage ?: "未知错误"
+            val msg = throwable.localizedMessage ?: "Unknown error"
             val stack = throwable.stackTraceToString()
 
             val intent = Intent(context, Class.forName("com.wifi.toolbox.ui.MainActivity")).apply {

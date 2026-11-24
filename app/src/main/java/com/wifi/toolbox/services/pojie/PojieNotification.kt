@@ -16,8 +16,8 @@ object PojieNotification {
     private const val NOTIFICATION_CHANNEL_ID = "PojieServiceChannel"
 
     /**
-     * 创建通知渠道
-     * @param context 上下文
+     * Creates the notification channel
+     * @param context Context
      */
     fun createChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -32,9 +32,9 @@ object PojieNotification {
     }
 
     /**
-     * 构建前台服务通知
-     * @param context 上下文
-     * @return Notification对象
+     * Builds the foreground notification
+     * @param context Context
+     * @return Notification object
      */
     fun buildForeground(context: Context): Notification {
         val notificationIntent = Intent(context, MainActivity::class.java).apply {
@@ -55,9 +55,9 @@ object PojieNotification {
     }
 
     /**
-     * 更新前台服务通知
-     * @param context 上下文
-     * @param contentText 要更新的内容
+     * Updates the foreground notification
+     * @param context Context
+     * @param contentText Text to display
      */
     fun update(context: Context, contentText: String, subText: String) {
         val notificationManager =

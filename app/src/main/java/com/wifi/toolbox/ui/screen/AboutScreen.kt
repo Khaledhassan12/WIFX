@@ -257,7 +257,7 @@ fun AboutScreen(onMenuClick: () -> Unit) {
                                                     }
 
                                                     totalTime < 200 -> {
-                                                        val tags = arrayOf("lzh", "en-CN")
+                                                        val tags = arrayOf("ar", "en")
                                                         val randomTag = tags.random()
                                                         val targetIndex = LocaleConfigs.list.indexOfFirst { it.tag == randomTag }
                                                         if (targetIndex != -1) {

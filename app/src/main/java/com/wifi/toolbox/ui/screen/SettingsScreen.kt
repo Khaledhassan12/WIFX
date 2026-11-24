@@ -258,7 +258,7 @@ fun SettingsScreen(
                             val appLocale = LocaleConfigs.getLocaleListCompat(index)
                             AppCompatDelegate.setApplicationLocales(appLocale)
                         },
-                        values = visibleLanguageIndices, // 使用过滤后的索引列表
+                        values = visibleLanguageIndices, // filtered index list
                         valueToText = { index ->
                             AnnotatedString(LocaleConfigs.list[index].displayName)
                         },

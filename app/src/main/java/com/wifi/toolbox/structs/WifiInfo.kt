@@ -31,5 +31,21 @@ data class WifiInfo(
 
             return hasESS && noSecurity
         }
+
+        /**
+         * Extracts a short security label from capabilities (WPA3 / WPA2 / WPA / WEP);
+         * Returns null for open networks.
+         */
+        fun securityLabel(input: WifiInfo): String? {
+            if (checkIsFreeOpenNetwork(input)) return null
+            val tokens = parseCapabilities(input).flatten().map { it.uppercase() }
+            return when {
+                tokens.contains("SAE") || tokens.contains("WPA3") -> "WPA3"
+                tokens.contains("RSN") || tokens.contains("WPA2") -> "WPA2"
+                tokens.contains("WEP") -> "WEP"
+                tokens.contains("WPA") || tokens.contains("PSK") -> "WPA"
+                else -> null
+            }
+        }
     }
 }

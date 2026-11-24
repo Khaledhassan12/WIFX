@@ -90,7 +90,7 @@ class AppFileProvider : DocumentsProvider() {
         val parent = File(parentDocumentId ?: return null)
         var file = File(parent, displayName ?: "unnamed")
 
-        // 避免文件名冲突逻辑
+        // Avoid file name collisions
         if (file.exists()) {
             val name = displayName ?: "unnamed"
             file = File(parent, "${System.currentTimeMillis()}_$name")

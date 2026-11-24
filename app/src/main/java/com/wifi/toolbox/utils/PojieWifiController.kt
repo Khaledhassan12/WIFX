@@ -172,20 +172,27 @@ fun rememberPojieWifiController(
 
                     if (start.code == StartScanResult.CODE_SUCCESS) {
                         showScanResult = false
-                        val totalTicks = MAX_SCAN_TIME / SCAN_INTERVAL
-                        repeat(totalTicks) { tick ->
+                        var elapsed = 0
+                        while (elapsed < MAX_SCAN_TIME) {
                             cachedScanResult = fetchRawResultsInternal()
                             trigger++
 
-                            if (tick * SCAN_INTERVAL >= MIN_SCAN_TIME) {
+                            if (elapsed >= MIN_SCAN_TIME) {
                                 showScanResult = true
                             }
 
+                            // Stop polling as soon as results arrive instead of spinning for 3 s
+                            if (showScanResult && !cachedScanResult?.wifiList.isNullOrEmpty()) {
+                                break
+                            }
+
                             delay(SCAN_INTERVAL.toLong())
+                            elapsed += SCAN_INTERVAL
                         }
                         showScanResult = true
+                        trigger++
                     } else {
-                        // 发送失败的情况，只刷一次并做个简单的延迟
+                        // On send failure refresh once and wait briefly
                         cachedScanResult = fetchRawResultsInternal()
                         trigger++
                         showScanResult = false

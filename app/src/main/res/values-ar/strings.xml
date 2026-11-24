@@ -142,7 +142,7 @@
     <string name="start_scan_success_later">الطلب اتبعت، هناخد النتايج بعد 3 ثواني</string>
     <string name="no_location_permission">مفيش صلاحية موقع</string>
     <string name="scan_result_head">=== نتيجة المسح ===</string>
-    <string name="scan_result_item">الاسم: %-16s الإشارة: %-8s bssid: %-24s البروتوكولات: %s</string>
+    <string name="scan_result_item">الاسم: %1$-16s الإشارة: %2$-8s bssid: %3$-24s البروتوكولات: %4$s</string>
     <string name="command_end">===============</string>
     <string name="scan_wifi_failed">خطأ: مسح الواي فاي فشل</string>
     <string name="location_not_enabled">خدمة الموقع مقفولة، شغّلها من الإعدادات</string>
@@ -245,6 +245,7 @@
     <string name="tip_all_failed">كل المحاولات فشلت (size=%1$d)</string>
     <string name="unknown">مش معروف</string>
     <string name="service_start_failed">خطأ: الخدمة ماشتغلتش</string>
+    <string name="queue_restored">[كمّلنا من حيث وقفنا] رجّعنا %1$d مهمة وكملنا شغل</string>
     <string name="run_finished">[التشغيل خلص]</string>
     <string name="pojie_service_description">أداة تهكير باسورد الواي فاي v3 للأندرويد</string>
     <string name="error_script_header_not_found">مفيش رأس تعريف للسكربت</string>
@@ -382,4 +383,50 @@
     <string name="unsupported_file_format">الملف ده مش مدعوم</string>
     <string name="import_failed">الاستيراد فشل</string>
     <string name="parse_failed">القراية فشلت</string>
+    <string name="offline_title">الفحص بدون اتصال</string>
+    <string name="offline_subtitle">اكسر handshake أو PMKID متسجل محلياً، من غير ما تلمس الشبكة نفسها.</string>
+    <string name="offline_import">استورد ملف .pcap / .pcapng</string>
+    <string name="offline_import_hint">استخدم تسجيل من وضع المراقبة، أو من المسجّل المباشر اللي تحت.</string>
+    <string name="offline_parsing">بيقرأ التسجيل…</string>
+    <string name="offline_no_handshakes">مفيش handshake ولا PMKID في التسجيل ده.</string>
+    <string name="offline_handshake_count">لقينا %1$d هدف</string>
+    <string name="offline_capture_file">الملف: %1$s</string>
+    <string name="offline_candidates">المرشحين</string>
+    <string name="offline_use_history">ابدأ بالباسوردات اللي اتكسرت قبل كده</string>
+    <string name="offline_dictionaries">القواميس</string>
+    <string name="offline_masks">الأقنعة (Masks)</string>
+    <string name="offline_mask_add">ضيف mask</string>
+    <string name="offline_mask_hint">مثال: ?u?l?l?l?l?l?d?d</string>
+    <string name="offline_mask_count">%1$s احتمال</string>
+    <string name="offline_mask_too_big">الـmask ده ضخم جداً وهيزخّ وقت طويل.</string>
+    <string name="offline_start">ابدأ الكسر بدون اتصال</string>
+    <string name="offline_stop">وقّف</string>
+    <string name="offline_running">بيشتغل…</string>
+    <string name="offline_tried">جرّبنا %1$s</string>
+    <string name="offline_speed">%1$s/ث</string>
+    <string name="offline_elapsed">%1$s ث</string>
+    <string name="offline_found">لقينا الباسورد: %1$s</string>
+    <string name="offline_not_found">مش موجود في المرشحين المختارين.</string>
+    <string name="offline_no_candidates">اختار قاموس أو mask واحد على الأقل.</string>
+    <string name="offline_copy">انسخ</string>
+    <string name="offline_live">تسجيل مباشر</string>
+    <string name="offline_live_hint">بيسجّل رسائل EAPOL وانت بتعمل محاولة عادية. محتاج root/Shizuku و tcpdump. النتيجة الغالبة PMKID.</string>
+    <string name="offline_live_start">سجّل لمدة %1$d ث</string>
+    <string name="offline_capture_running">بيسجّل…</string>
+    <string name="offline_capture_done">التسجيل اتحفظ (%1$d كيلوبايت).</string>
+    <string name="offline_capture_failed">التسجيل فشل. اتأكد إن tcpdump متسطّب والروت متاح.</string>
+    <string name="offline_requires_root">ظبط طريقة الأوامر (root/Shizuku/AIDL) من الإعدادات الأول.</string>
+    <string name="offline_scripts_skipped">موارد السكريبتات مش بتشتغل في وضع عدم الاتصال.</string>
+    <string name="offline_seconds">ثواني</string>
+    <string name="strategy_wpa3_unsupported">WPA3-SAe لوحده مينفعش معاه قائمة باسوردات.</string>
+    <string name="strategy_wpa3_transition">الشبكة WPA3 transition: زوّدنا وقت الانتظار.</string>
+    <string name="strategy_enterprise">شبكات Enterprise (EAP) مش بتشتغل مع هجوم PSK.</string>
+    <string name="strategy_open">شبكة مفتوحة: مش محتاجة باسورد.</string>
+    <string name="strategy_wep">WEP قديم؛ الأفضل تسجّل وتكسر بدون اتصال.</string>
+    <string name="strategy_weak_signal">الإشارة ضعيفة: زوّدنا الـtimeout.</string>
+    <string name="strategy_offline">الشبكة دي مرشح كويس للكسر بدون اتصال.</string>
+    <string name="strategy_long">الباسوردات الطويلة محتملة على الشبكة دي.</string>
+    <string name="strategy_fast">WPA2: طبقنا بروفايل سريع بعدّاد المصافحة.</string>
+    <string name="strategy_applied">اتطبقت الاستراتيجية على %1$s</string>
+    <string name="offline_clear">مسح</string>
 </resources>

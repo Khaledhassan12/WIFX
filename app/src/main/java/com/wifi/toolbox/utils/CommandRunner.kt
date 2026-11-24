@@ -16,13 +16,13 @@ object CommandRunner {
     )
 
     /**
-     * 执行命令，可选择是否以 Root 模式执行
+     * Runs a command, optionally as root
      *
-     * @param command           命令文本
-     * @param isRoot            是否以 Root 模式执行
-     * @param onOutputReceived  当接收到输出时的回调函数
-     * @param onCommandFinished 当命令全部结束时的回调函数
-     * @return 停止执行的函数
+     * @param command           Command text
+     * @param isRoot            Whether to run as root
+     * @param onOutputReceived  Callback invoked for each output line
+     * @param onCommandFinished Callback invoked when the command finishes
+     * @return A function that stops execution
      */
     fun executeCommand(
         command: String, isRoot: Boolean,
@@ -97,10 +97,10 @@ object CommandRunner {
     }
 
     /**
-     * 同步执行命令，等待全部执行完毕后返回输出结果
+     * Runs a command synchronously and returns its full output.
      *
-     * @param command 命令文本
-     * @return CompletableFuture 异步返回命令执行的完整输出
+     * @param command Command text
+     * @return CompletableFuture with the full command output
      */
     fun executeCommandSync(command: String, isRoot: Boolean): CommandResult {
         val future = CompletableFuture<CommandResult>()

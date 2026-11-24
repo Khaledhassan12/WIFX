@@ -1,53 +1,53 @@
 [
   {
     "name": "Hail",
-    "description": "参考完成设置页的布局\n借鉴了使用Shizuku访问隐藏API的原理",
+    "description": "Reference for the settings page layout.\nBorrowed the idea of accessing hidden APIs through Shizuku.",
     "link": "https://github.com/aistra0528/Hail",
     "license": "GPL-3.0 license"
   },
   {
     "name": "WiFiList",
-    "description": "借鉴了通过Shizuku在Android11+设备上免root获取已保存wifi的明文密码的实现方式",
+    "description": "Borrowed the approach of reading saved Wi-Fi passwords via Shizuku on Android 11+ without root.",
     "link": "https://github.com/zacharee/WiFiList"
   },
   {
     "name": "Native Detector",
-    "description": "借鉴了可折叠卡片的布局样式并以此为基础稍作修改",
+    "description": "Reference for the collapsible card style, with small modifications.",
     "link": "https://github.com/reveny/Android-Native-Root-Detector",
     "license": "MIT License"
   },
   {
-    "name": "幻影WIFI",
-    "description": "借鉴了使用应用API来连接wifi以及监听wifi连接状态的实现方式\n密码字典破解的脚本类型密码由高级字典启发而来"
+    "name": "Phantom WiFi",
+    "description": "Borrowed the app-API approach for connecting to Wi-Fi and observing connection state.\nThe script-based dictionary engine was inspired by its advanced dictionary feature."
   },
   {
     "name": "HyperCeiler",
-    "description": "v2版本之后的关于页面参考了此应用的布局样式",
+    "description": "The About page layout is based on this app.",
     "link": "https://github.com/ReChronoRain/HyperCeiler"
   },
   {
     "name": "Xiaomi HyperOS",
-    "description": "借鉴了设置应用关于页面的背景样式",
+    "description": "Reference for the About page background style.",
     "link": "https://hyperos.mi.com/"
   },
   {
     "name": "LSPosed",
-    "description": "密码字典破解的页面参考了此应用的导航栏样式",
+    "description": "The password-audit page navigation style is based on this app.",
     "link": "https://github.com/JingMatrix/LSPosed"
   },
   {
-    "name": "清浊",
-    "description": "参考了UI架构及侧边导航栏布局",
+    "name": "DirCleaner",
+    "description": "Reference for the UI architecture and side navigation layout.",
     "link": "https://www.dircleaner.com/"
   },
   {
     "name": "DataBackup",
-    "description": "参考了主页的UI设计",
+    "description": "Reference for the home page UI design.",
     "link": "https://github.com/XayahSuSuSu/Android-DataBackup"
   },
   {
     "name": "Easter Eggs",
-    "description": "借鉴了折叠块的小箭头以及点按区域设计",
+    "description": "Reference for the collapsible arrow and tap-area design.",
     "link": "https://github.com/hushenghao/AndroidEasterEggs",
     "license": "Apache License 2.0"
   }

@@ -18,7 +18,7 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.wifi.toolbox.ui.MainActivity
 
-@Suppress("DEPRECATION") //targetSdk = 28 不用理会警告
+@Suppress("DEPRECATION") // targetSdk = 28, the warning is expected
 object ApiUtil {
 
     fun hasLocationPermission(context: Context): Boolean {

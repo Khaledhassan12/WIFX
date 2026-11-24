@@ -92,6 +92,7 @@ private fun WifiItemMainHeader(
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
                 if (WifiInfo.checkIsFreeOpenNetwork(wifi)) TagItem(stringResource(R.string.tag_open_network), TagType.Tertiary)
+                WifiInfo.securityLabel(wifi)?.let { TagItem(it) }
                 wifi.savedInfo?.let { TagItem(stringResource(R.string.tag_saved)) }
                 wifi.pojieHistoryItem?.let { TagItem(stringResource(R.string.tag_has_history), TagType.Primary) }
             }

@@ -59,7 +59,7 @@ object ShizukuUtil {
     }
 
     /**
-     * 下面是一些奇奇怪怪的测试，应用用不到，用来检查功能正不正常
+     * Miscellaneous self-checks; not used by the app, only to verify behaviour
      */
 
     fun lookScreen() {
@@ -101,79 +101,79 @@ object ShizukuUtil {
     }
 
     /**
-     * 下面是应用操作wifi的核心功能
+     * Core Wi-Fi operations used by the app
      */
 
     /**
      * ### setWifiEnabled
      *
-     * * **Android 7 - 16**: 传入 `(String packageName, boolean enable)`，返回 `boolean`。
+     * * **Android 7 - 16**: takes `(String packageName, boolean enable)`, returns `boolean`.
      *
      * ### removeNetwork
      *
-     * * **Android 7 - 8**: 传入 `(int netId)`，返回 `boolean`。
-     * * **Android 9 - 16**: 传入 `(int netId, String packageName)`，返回 `boolean`。
+     * * **Android 7 - 8**: takes `(int netId)`, returns `boolean`.
+     * * **Android 9 - 16**: takes `(int netId, String packageName)`, returns `boolean`.
      *
      * ### addOrUpdateNetwork
      *
-     * * **Android 7 - 8**: 传入 `(WifiConfiguration config)`，返回 `int`。
-     * * **Android 9 - 12**: 传入 `(WifiConfiguration config, String packageName)`，返回 `int`。
-     * * **Android 13 - 16**: 传入 `(WifiConfiguration config, String packageName, Bundle extras)`，返回 `int`。
+     * * **Android 7 - 8**: takes `(WifiConfiguration config)`, returns `int`.
+     * * **Android 9 - 12**: takes `(WifiConfiguration config, String packageName)`, returns `int`.
+     * * **Android 13 - 16**: takes `(WifiConfiguration config, String packageName, Bundle extras)`, returns `int`.
      *
      * ### enableNetwork
      *
-     * * **Android 7 - 8**: 传入 `(int netId, boolean disableOthers)`，返回 `boolean`。
-     * * **Android 9 - 16**: 传入 `(int netId, boolean disableOthers, String packageName)`，返回 `boolean`。
+     * * **Android 7 - 8**: takes `(int netId, boolean disableOthers)`, returns `boolean`.
+     * * **Android 9 - 16**: takes `(int netId, boolean disableOthers, String packageName)`, returns `boolean`.
      *
      * ### disableNetwork
      *
-     * * **Android 7 - 8**: 传入 `(int netId)`，返回 `boolean`。
-     * * **Android 9 - 16**: 传入 `(int netId, String packageName)`，返回 `boolean`。
+     * * **Android 7 - 8**: takes `(int netId)`, returns `boolean`.
+     * * **Android 9 - 16**: takes `(int netId, String packageName)`, returns `boolean`.
      *
      * ### getConnectionInfo
      *
-     * * **Android 7**: 传入 `()`，返回 `WifiInfo`。
-     * * **Android 8 - 10**: 传入 `(String callingPackage)`，返回 `WifiInfo`。
-     * * **Android 11 - 16**: 传入 `(String callingPackage, String callingFeatureId)`，返回 `WifiInfo`。
+     * * **Android 7**: takes `()`, returns `WifiInfo`.
+     * * **Android 8 - 10**: takes `(String callingPackage)`, returns `WifiInfo`.
+     * * **Android 11 - 16**: takes `(String callingPackage, String callingFeatureId)`, returns `WifiInfo`.
      *
      * ### allowAutojoin
      *
-     * * **Android 7 - 10**: 未定义。
-     * * **Android 11 - 16**: 传入 `(int netId, boolean choice)`，返回 `void`。
+     * * **Android 7 - 10**: undefined.
+     * * **Android 11 - 16**: takes `(int netId, boolean choice)`, returns `void`.
      *
      * ### disconnect
      *
-     * * **Android 7 - 8**: 传入 `()`，返回 `void`。
-     * * **Android 9**: 传入 `(String packageName)`，返回 `void`。
-     * * **Android 10 - 16**: 传入 `(String packageName)`，返回 `boolean`。
+     * * **Android 7 - 8**: takes `()`, returns `void`.
+     * * **Android 9**: takes `(String packageName)`, returns `void`.
+     * * **Android 10 - 16**: takes `(String packageName)`, returns `boolean`.
      *
      * ### startScan
      *
-     * * **Android 7**: 传入 `(ScanSettings requested, WorkSource ws)`，返回 `boolean`。
-     * * **Android 8**: 传入 `(ScanSettings requested, WorkSource ws, String packageName)`，返回 `boolean`。
-     * * **Android 9 - 10**: 传入 `(String packageName)`，返回 `boolean`。
-     * * **Android 11 - 16**: 传入 `(String packageName, String featureId)`，返回 `boolean`。
+     * * **Android 7**: takes `(ScanSettings requested, WorkSource ws)`, returns `boolean`.
+     * * **Android 8**: takes `(ScanSettings requested, WorkSource ws, String packageName)`, returns `boolean`.
+     * * **Android 9 - 10**: takes `(String packageName)`, returns `boolean`.
+     * * **Android 11 - 16**: takes `(String packageName, String featureId)`, returns `boolean`.
      *
      * ### getScanResults
      *
-     * * **Android 7 - 10**: 传入 `(String callingPackage)`，返回 `List<ScanResult>`。
-     * * **Android 11 - 14**: 传入 `(String callingPackage, String callingFeatureId)`，返回 `List<ScanResult>`。
-     * * **Android 15 - 16**: 传入 `(String callingPackage, String callingFeatureId)`，返回 `ParceledListSlice<ScanResult>`。
+     * * **Android 7 - 10**: takes `(String callingPackage)`, returns `List<ScanResult>`.
+     * * **Android 11 - 14**: takes `(String callingPackage, String callingFeatureId)`, returns `List<ScanResult>`.
+     * * **Android 15 - 16**: takes `(String callingPackage, String callingFeatureId)`, returns `ParceledListSlice<ScanResult>`.
      *
      * ### getConfiguredNetworks
      *
-     * * **Android 7**: 传入 `()`，返回 `List<WifiConfiguration>`。
-     * * **Android 8 - 9**: 传入 `()`，返回 `ParceledListSlice<WifiConfiguration>`。
-     * * **Android 10**: 传入 `(String packageName)`，返回 `ParceledListSlice<WifiConfiguration>`。
-     * * **Android 11**: 传入 `(String packageName, String featureId)`，返回 `ParceledListSlice<WifiConfiguration>`。
-     * * **Android 12 - 16**: 传入 `(String packageName, String featureId, boolean callerNetworksOnly)`，返回 `ParceledListSlice<WifiConfiguration>`。
+     * * **Android 7**: takes `()`, returns `List<WifiConfiguration>`.
+     * * **Android 8 - 9**: takes `()`, returns `ParceledListSlice<WifiConfiguration>`.
+     * * **Android 10**: takes `(String packageName)`, returns `ParceledListSlice<WifiConfiguration>`.
+     * * **Android 11**: takes `(String packageName, String featureId)`, returns `ParceledListSlice<WifiConfiguration>`.
+     * * **Android 12 - 16**: takes `(String packageName, String featureId, boolean callerNetworksOnly)`, returns `ParceledListSlice<WifiConfiguration>`.
      *
      *
      * ### forget
      *
-     * * **Android 7 - 10**: 未定义。
-     * * **Android 11**: 传入 `(int netId, IBinder binder, IActionListener listener, int callbackIdentifier)`，返回 `void` 。
-     * * **Android 12 - 16**: 传入 `(int netId, IActionListener listener)`，返回 `void` 。
+     * * **Android 7 - 10**: undefined.
+     * * **Android 11**: takes `(int netId, IBinder binder, IActionListener listener, int callbackIdentifier)`, returns `void`.
+     * * **Android 12 - 16**: takes `(int netId, IActionListener listener)`, returns `void`.
      */
     @SuppressLint("PrivateApi")
     fun getWifiMethod(wifiService: Any, methodName: String): Method {
@@ -189,7 +189,7 @@ object ShizukuUtil {
                 try {
                     clazz.getMethod(methodName, stringClass, booleanType)
                 } catch (_: Exception) {
-                    clazz.getMethod(methodName, booleanType)//？？？源码的aidl情报有误
+                    clazz.getMethod(methodName, booleanType) // the AIDL signature in the source is wrong
                 }
             }
 
@@ -367,7 +367,7 @@ object ShizukuUtil {
             else -> -1
         } as Int
 
-        if (netId == -1) throw RuntimeException("添加网络失败")
+        if (netId == -1) throw RuntimeException("addOrUpdateNetwork failed")
 
         enableNetwork(netId)
         return netId
@@ -386,7 +386,7 @@ object ShizukuUtil {
     }
 
     /**
-     * 优雅地断开网络
+     * Disconnects the network cleanly
      * */
     fun disconnectWifi() {
         val wifiService = asInterface(
@@ -555,9 +555,9 @@ object ShizukuUtil {
     }
 
     /**
-     * 获取已保存的Wifi列表
-     * 此代码借鉴（ctrlCV）自zacharee/WiFiList项目
-     * @return 获取到的wifi列表List<WifiConfiguration>
+     * Returns the saved Wi-Fi list
+     * Adapted from the zacharee/WiFiList project
+     * @return Saved networks as List<WifiConfiguration>
      * */
     @SuppressLint("PrivateApi")
     @Suppress("DEPRECATION", "UNCHECKED_CAST")
@@ -575,7 +575,7 @@ object ShizukuUtil {
                 else -> "shell"
             }
 
-            //这个API咋这么乱啊！！
+            // This API is a mess!
             val privilegedConfigs = when {
                 Build.VERSION.SDK_INT >= 33 -> {
                     val method = base.getMethod(
@@ -605,7 +605,7 @@ object ShizukuUtil {
                 }
 
                 Build.VERSION.SDK_INT >= 29 -> {
-                    //注：这里测试android10模拟器获取不到（也许这就是为什么WifiList的minsdk是30吧…）
+                    // Note: not available on the Android 10 emulator (maybe why WiFiList requires minSdk 30)
                     try {
                         try {
                             base.getMethod("getPrivilegedConfiguredNetworks", String::class.java)
@@ -658,7 +658,7 @@ object ShizukuUtil {
             if (resultList.isEmpty()) throw Exception("empty list")
             return resultList.distinctBy { it.networkId }
         } catch (e: Exception) {
-            //这里兜个底，密码不要了其实也可以的
+            // Fallback: dropping the password is acceptable here
             Log.w("ShizukuUtil", e.stackTraceToString())
             return getSavedWifiListOld()
         }
@@ -666,11 +666,11 @@ object ShizukuUtil {
 
 
     /**
-     * 执行命令
-     * @param command 命令文本
-     * @param onOutputReceived 当接收到输出时的回调函数
-     * @param onCommandFinished 当命令全部结束时的回调函数
-     * @return 停止执行的函数
+     * Runs a command
+     * @param command Command text
+     * @param onOutputReceived Callback invoked for each output line
+     * @param onCommandFinished Callback invoked when the command finishes
+     * @return A function that stops execution
      */
     fun executeCommand(
         command: String,
@@ -766,9 +766,9 @@ object ShizukuUtil {
     }
 
     /**
-     * 同步执行命令，等待全部执行完毕后返回输出结果
-     * @param command 命令文本
-     * @return CompletableFuture 异步返回命令执行的完整输出
+     * Runs a command synchronously and returns its full output.
+     * @param command Command text
+     * @return CompletableFuture with the full command output
      */
     fun executeCommandSync(command: String): CommandRunner.CommandResult {
         val future = CompletableFuture<CommandRunner.CommandResult?>()

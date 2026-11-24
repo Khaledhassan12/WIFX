@@ -14,7 +14,7 @@ import java.util.Locale
 import kotlin.coroutines.resumeWithException
 
 /**
- * 负责管理单次连接并获取结果
+ * Handles a single connection attempt and its result
  */
 @Suppress("DEPRECATION")
 class ConnectWorker(
@@ -26,9 +26,10 @@ class ConnectWorker(
     private var connectWifiApi29Callback: ConnectivityManager.NetworkCallback? = null
 
     /**
-     * 初始化日志收集服务
+     * Initializes log collectors (idempotent; releases old instances first)
      */
     fun initLogServices(settings: PojieSettings) {
+        closeServices()
         readLogMode = settings.readLogMode
         when (readLogMode) {
             0 -> throw Exception(service.getString(R.string.log_mode_empty))
@@ -45,21 +46,24 @@ class ConnectWorker(
     }
 
     /**
-     * 关闭所有服务并释放资源
+     * Closes every log service and releases resources
      */
     fun closeServices() {
         logcatService?.close()
         broadcastService?.close()
+        logcatService = null
+        broadcastService = null
     }
 
     /**
-     * 执行具体的任务逻辑
+     * Runs one attempt
      */
     suspend fun performTaskLogic(
         app: ToolboxApp, task: SinglePojieTask, settings: PojieSettings
     ): Int = withContext(Dispatchers.Default) {
         val startTime = System.currentTimeMillis()
         val connectMode = settings.connectMode
+        val maxTryTime = app.pojieConfig.maxTryTime.toLong().coerceAtLeast(1_000L)
 
 
         val targetNetId = if (task.password.isEmpty()) try {
@@ -77,36 +81,43 @@ class ConnectWorker(
             throw Exception(service.getString(R.string.error_saved_pass_failed))
         } else -1
 
-
-        when (connectMode) {
-            0 -> throw Exception(service.getString(R.string.connect_mode_empty))
-            1 -> {
-                if (task.password.isEmpty()) ShizukuUtil.enableNetwork(targetNetId)
-                else ShizukuUtil.connectToWifi(task.ssid, task.password)
-            }
-
-            2 -> {
-                if (task.password.isEmpty()) AidlServiceHelper.enableNetwork(app, targetNetId)
-                else AidlServiceHelper.connectToWifi(app, task.ssid, task.password)
-            }
-
-            3 -> {
-                if (task.password.isEmpty()) {
-                    ApiUtil.enableNetwork(app, targetNetId)
-                } else {
-                    val netId = ApiUtil.connectToWifiApi28(service, task.ssid, task.password)
-                    if (netId == -1) throw Exception(service.getString(R.string.connect_wifi_failed))
-                }
-            }
-
-            else -> if (connectMode != 4) throw Exception(service.getString(R.string.tip_not_completed) + "(connectMode=$connectMode)")
-        }
+        // Clear stale events and reset handshake counters before each attempt
+        logcatService?.drainPendingEvents()
+        logcatService?.startAttempt()
+        broadcastService?.drainPendingEvents()
 
         try {
-            withTimeout(app.pojieConfig.maxTryTime.toLong()) {
+            // Wrap the connect call in a timeout so a stuck binder cannot hang the task forever
+            withTimeout(maxTryTime) {
+                when (connectMode) {
+                    0 -> throw Exception(service.getString(R.string.connect_mode_empty))
+                    1 -> {
+                        if (task.password.isEmpty()) ShizukuUtil.enableNetwork(targetNetId)
+                        else ShizukuUtil.connectToWifi(task.ssid, task.password)
+                    }
+
+                    2 -> {
+                        if (task.password.isEmpty()) AidlServiceHelper.enableNetwork(app, targetNetId)
+                        else AidlServiceHelper.connectToWifi(app, task.ssid, task.password)
+                    }
+
+                    3 -> {
+                        if (task.password.isEmpty()) {
+                            ApiUtil.enableNetwork(app, targetNetId)
+                        } else {
+                            val netId = ApiUtil.connectToWifiApi28(service, task.ssid, task.password)
+                            if (netId == -1) throw Exception(service.getString(R.string.connect_wifi_failed))
+                        }
+                    }
+
+                    else -> if (connectMode != 4) throw Exception(
+                        service.getString(R.string.tip_not_completed) + "(connectMode=$connectMode)"
+                    )
+                }
+
                 if (connectMode == 4) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        suspendCancellableCoroutine { continuation ->
+                        suspendCancellableCoroutine<Int> { continuation ->
                             launch(Dispatchers.Main) {
                                 try {
                                     connectWifiApi29Callback =
@@ -223,11 +234,17 @@ class ConnectWorker(
         if (connectWifiApi29Callback != null) {
             ApiUtil.cancelWifiRequest(service, connectWifiApi29Callback!!)
             connectWifiApi29Callback = null
-        } else {
-            when (settings.enableMode) {
+            return
+        }
+        val app = service.applicationContext as ToolboxApp
+        try {
+            when (settings.connectMode) {
                 1 -> ShizukuUtil.disconnectWifi()
-                2 -> ApiUtil.disconnectWifi(service)
+                2 -> AidlServiceHelper.disconnectWifi(app)
+                3 -> ApiUtil.disconnectWifi(service)
             }
+        } catch (_: Exception) {
+            // A failed cleanup must not break the next attempt
         }
     }
 

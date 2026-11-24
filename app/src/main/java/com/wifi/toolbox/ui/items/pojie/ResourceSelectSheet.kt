@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wifi.toolbox.R
+import com.wifi.toolbox.offline.StrategyAdvisor
 import com.wifi.toolbox.structs.WifiInfo
 import com.wifi.toolbox.ui.items.LogView
 import com.wifi.toolbox.utils.*
@@ -48,6 +49,13 @@ fun ResourceSelectSheet(
 
     val recalculatingTip = stringResource(R.string.log_config_changed_recalculating)
 
+    // Pick the attack profile from the security type of the target network.
+    val advice = remember(wifiInfo) {
+        StrategyAdvisor.advise(
+            StrategyAdvisor.profileFromCapabilities(wifiInfo.capabilities, wifiInfo.level)
+        )
+    }
+
     LaunchedEffect(selectedIds) {
         if (selectedIds.isEmpty()) {
             resultList = emptyList()
@@ -68,7 +76,8 @@ fun ResourceSelectSheet(
                 resources = selectedResources,
                 wifiInfo = wifiInfo,
                 onProgress = { _, _ -> },
-                onLog = { if (isActive) logState.addLog(it) }
+                onLog = { if (isActive) logState.addLog(it) },
+                advice = advice
             )
             if (isActive) {
                 resultList = results

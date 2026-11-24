@@ -23,7 +23,7 @@ class AppShizuku(private val scope: CoroutineScope) {
     }
 
     /**
-     * 初始化Shizuku配置
+     * Initializes the Shizuku configuration
      * @param none
      * @return none
      */
@@ -39,7 +39,7 @@ class AppShizuku(private val scope: CoroutineScope) {
     }
 
     /**
-     * 移除监听
+     * Removes the listener
      * @param none
      * @return none
      */
@@ -51,8 +51,8 @@ class AppShizuku(private val scope: CoroutineScope) {
     }
 
     /**
-     * 申请权限
-     * @param call 成功后的回调
+     * Requests permission
+     * @param call Callback invoked on success
      * @return none
      */
     fun request(call: () -> Unit) {

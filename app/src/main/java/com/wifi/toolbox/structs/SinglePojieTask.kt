@@ -5,22 +5,22 @@ data class SinglePojieTask(
     val password: String
 ) {
     companion object {
-        /** 连接成功 */
+        /** Connected successfully */
         const val RESULT_SUCCESS = 0
 
-        /** 达到失败标志 */
+        /** Failure threshold reached */
         const val RESULT_FAILED = 1
 
-        /** 执行超时（路由器无响应） */
+        /** Attempt timed out (router did not respond) */
         const val RESULT_TIMEOUT = 2
 
-        /** 用户手动取消任务 */
+        /** User cancelled the task */
         const val RESULT_CANCEL = 3
 
-        /** 路由器拒绝接入等 */
+        /** Router rejected the association, etc. */
         const val RESULT_ERROR_TRANSIENT = -1
 
-        /** 未授权、其他原因 */
+        /** Not authorized / other error */
         const val RESULT_ERROR = -2
     }
 }

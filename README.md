@@ -1,111 +1,118 @@
-> 最近学业很忙，没时间更新，预计要过几个月（2026/01/30）
-> 
-> 看起来最新的版本又写成屎山了，太散了可维护性差，下个版本加上跑pin的，继续重构！（2026/03/12）
+> Busy with studies lately, no time to update; back in a few months (2026/01/30)
 >
+> The newest build turned into spaghetti again — too scattered and hard to maintain. Next version adds PIN attacks and keeps refactoring! (2026/03/12)
 
-新版开发中，源码位于master分支，欢迎来 [https://t.me/bszapp](https://t.me/s/bszapp) 划水，已经实现抓握手包跑包功能、密码字典破解、PIN破解等功能，新功能动态在这里发布。**不再受理3.0.0反馈**，但讨论区和issue的意见会收集（2026/10/24）
+A new version is in development on the `master` branch. Join the chat at [https://t.me/bszapp](https://t.me/s/bszapp). Handshake capture + offline cracking, dictionary attacks and PIN attacks are already implemented; new features are announced there. **Feedback for 3.0.0 is no longer accepted**, but suggestions in discussions and issues are still collected (2026/10/24).
 
-# wifi工具箱
+# WiFi Toolbox
 
 [![Stars](https://img.shields.io/github/stars/bszapp/android-wifi-pojie?style=flat-square&logo=github&color=blue)](https://github.com/bszapp/android-wifi-pojie/stargazers) [![Total Downloads](https://img.shields.io/github/downloads/bszapp/android-wifi-pojie/total?style=flat-square&logo=github&color=orange)](https://github.com/bszapp/android-wifi-pojie/releases)
 
-最新版本点击下载：
+Download the latest release:
 
 [![Latest Release](https://img.shields.io/github/v/release/bszapp/android-wifi-pojie?style=flat-square&logo=github&color=green)](https://github.com/bszapp/android-wifi-pojie/releases/latest) [![Latest Downloads](https://img.shields.io/github/downloads/bszapp/android-wifi-pojie/latest/total?style=flat-square&logo=github&color=green&label=downloads)](https://github.com/bszapp/android-wifi-pojie/releases/latest)
 
-应用截图：
+Screenshots:
 
 ![screenshot.png](screenshot.png)
 
-~~屎山评级：~~
+~~Spaghetti rating:~~
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=bszapp_android-wifi-pojie&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=bszapp_android-wifi-pojie)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bszapp_android-wifi-pojie&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bszapp_android-wifi-pojie)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=bszapp_android-wifi-pojie&metric=bugs)](https://sonarcloud.io/summary/new_code?id=bszapp_android-wifi-pojie)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=bszapp_android-wifi-pojie&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=bszapp_android-wifi-pojie)
 
-（AI太好用了你们知道吗）
+(AI tools are ridiculously useful, you know?)
 
 ---
 
-v3.x版本，使用kotlin重构项目，包名改为com.wifi.toolbox
+v3.x is a Kotlin rewrite; the package name is now `com.wifi.toolbox`.
 
-部分功能尚未完善，有功能改进建议或者新功能建议欢迎来这里提议：[意见征集](https://github.com/bszapp/android-wifi-pojie/discussions/18)
+Some features are still incomplete. Suggestions for improvements or new features are welcome here: [Feedback](https://github.com/bszapp/android-wifi-pojie/discussions/18)
 
-纯root使用说明：在工作模式设置页将所有功能选中“命令行”以及“aidl”模式，然后在设置中勾选“启用aidl服务”并重启应用
+Pure-root setup: in the run-settings page select "Command line" and "AIDL" for every mode, then enable "Start AIDL service" in global settings and restart the app.
 
-旧版本（b站封号时的最后一个版本，使用mdc设计）不再维护：[前往v2仓库](https://github.com/bszapp/android-wifi-pojie/tree/v1.x-v2.x)
+The old version (the last one before the Bilibili account ban, using MDC design) is no longer maintained: [go to the v2 repo](https://github.com/bszapp/android-wifi-pojie/tree/v1.x-v2.x)
 
-## 功能介绍
+> Use this app only on networks you own or have explicit permission to test.
 
-### 密码字典破解
-#### 使用方式
+## Features
 
-##### 选择模式
+### Dictionary attack
+#### How to use
 
-首次使用需要选择运行模式，推荐全部使用Shizuku模式，读取网络日志使用命令行
+##### Choose a mode
 
-如果没有条件可以全部使用系统API模式。但是执行过程可能会误报，没有前者稳定，且不支持握手超次模式
+On first use, pick the execution modes. Shizuku is recommended everywhere, with "Command line" for reading network logs.
 
-~~画大饼：增加引导界面，自动配置模式~~
+If that is not available you can use plain system APIs for everything, but results may produce false negatives, it is less stable than Shizuku, and the handshake-limit mode is unavailable.
 
-##### 开始运行
+~~On the list: a setup wizard that configures the modes automatically~~
 
-在“运行”页中心是wifi列表，点击对应右侧的“开始”按钮，选择密码本即可运行
+##### Start a run
 
-当然，你可以同时开启多个任务，程序会自动排队运行，具体流程如程序原理图片所示
+The "Run" page shows the Wi-Fi list in the middle. Tap "Start" next to a network, pick a password list and the attack begins.
 
-##### 密码本管理
+You can run several tasks at once; they are queued automatically (see the workflow diagram).
 
-在“资源”页面你可以管理密码本，你可以直接点右下角新建-导入-选择txt文件（或者json/js文件）直接使用
+##### Managing password lists
 
-也可以选择普通/脚本类型的密码本新建
+On the "Resources" page you can manage lists. Tap the bottom-right "+" → Import → choose a `.txt` file (or a `.json` / `.js` file) to use it directly.
 
-###### 普通类型
-和幻影wifi的格式一样，一行一个密码，程序会轮流尝试
+You can also create plain or script resources.
 
-本应用增加了ID、描述、作者、版本等额外参数
+###### Plain lists
+Same format as Phantom WiFi: one password per line, tried in turn.
 
-其中ID不能和其他重复，格式必须匹配正则/^[a-zA-Z][a-zA-Z0-9._-]+$/
+This app adds extra fields: ID, description, author and version.
 
-存储在应用内部目录，文件名为ID.json，格式JSON
+The ID must be unique and match `/^[a-zA-Z][a-zA-Z0-9._-]+$/`.
 
-###### 脚本类型
-每次生成密码本会执行一遍脚本，在脚本中可以读取到要连接的ssid，并生成结果
+Stored in the app's internal directory as `<ID>.json`.
 
-脚本的执行环境是WebView，所以可以使用一些WebView特性（如fetch，但有跨域限制）
+###### Script lists
+The script runs every time a password list is generated. It can read the target SSID and produce results.
 
-以下是一个例子，展示所有可用的功能：
+Scripts run inside a WebView, so WebView features are available (`fetch` works, subject to CORS).
+
+Example showing every supported feature:
 ```javascript
 // ==ToolboxScript==
 // @id {ID}
-// @name 脚本名称
-// @description 脚本描述内容
-// @author 作者
+// @name Script name
+// @description Script description
+// @author Author
 // @version 1.0.0
 // ==/ToolboxScript==
 
-console.log("先加一个密码…") //输出使用console.log
-task.addItem("12345678") //添加使用task.addItem
-console.log("等一秒…")
-await wait(1000); //代码默认嵌套在async function内，可以使用await
-console.log("再来一个！");
-task.addItem(task.ssid + "888") //使用task.ssid获取要运行的wifi的名称
+console.log("Adding a password...") // log output with console.log
+task.addItem("12345678") // add a candidate with task.addItem
+console.log("Waiting 1 second...")
+await wait(1000); // code runs inside an async function, so await works
+console.log("One more!");
+task.addItem(task.ssid + "888") // task.ssid is the target network name
 
 try {
-	console.log("请求网络试试…");
-	const response = await fetch('https://uapis.cn/api/v1/network/myip'); //可以使用WebView自带的工具，但是有cors限制
+	console.log("Testing network...");
+	const response = await fetch('https://uapis.cn/api/v1/network/myip'); // WebView fetch is available, but CORS applies
 	const data = await response.json();
-	console.log("本机IP: " + data.ip);
-	console.log("归属地: " + data.region);
+	console.log("IP: " + data.ip);
+	console.log("Region: " + data.region);
 } catch (err) {
-	console.log("请求失败: " + err.message);
+	console.log("Request failed: " + err.message);
 }
-console.log("完成");
+console.log("Done");
 ```
 
-存储在应用内部目录，文件名为ID.js，格式为js脚本
+Stored in the app's internal directory as `<ID>.js`.
 
-#### 程序原理
+### Offline audit
+Import a `.pcap` / `.pcapng` capture, pick a handshake or PMKID, and crack it locally with dictionaries and hashcat-style masks. No traffic is sent to the network.
+
+#### Masks
+`?l` lowercase, `?u` uppercase, `?d` digits, `?s` symbols, `?a` printable, `?b` binary, `?1`..`?4` custom sets, `??` literal question mark. The right-most position changes fastest, candidates are generated lazily.
+
+### Program flow
 ![run_lc.svg](run_lc.svg)
 
 [![Star History](https://star-history.dera.page/svg?repos=bszapp/android-wifi-pojie&type=Date)](https://star-history.dera.page/#bszapp/android-wifi-pojie&Date)

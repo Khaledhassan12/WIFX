@@ -21,6 +21,7 @@ import com.wifi.toolbox.ui.items.pojie.ResourceSelectSheet
 import com.wifi.toolbox.ui.items.pojie.RunListView
 import com.wifi.toolbox.ui.items.pojie.ScanResult
 import com.wifi.toolbox.ui.items.pojie.ScreenState
+import com.wifi.toolbox.offline.StrategyAdvisor
 import com.wifi.toolbox.utils.*
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
@@ -91,6 +92,7 @@ fun PojieScreenContent(
     var showHistoryConfirmDialog by rememberSaveable { mutableStateOf(false) }
     var showSavedConfirmDialog by rememberSaveable { mutableStateOf(false) }
     var pendingWifiInfo by remember { mutableStateOf<WifiInfo?>(null) }
+    val offlineManager = remember { OfflineAuditManager(context) }
 
     val historyItem =
         remember(currentTargetSsid, app?.pojieHistory?.historyFlow?.collectAsState()?.value) {
@@ -127,6 +129,7 @@ fun PojieScreenContent(
                                 onStartClick = { wifiInfo ->
                                     currentTargetSsid = wifiInfo.ssid
                                     pendingWifiInfo = wifiInfo
+                                    app?.let { applyStrategy(context, it, wifiInfo) }
                                     val history = wifiInfo.pojieHistoryItem
                                     val hasSaved = wifiInfo.savedInfo != null
                                     val hasUnfinishedHistory =
@@ -153,6 +156,12 @@ fun PojieScreenContent(
                 }
             },
             object : NavPage {
+                override val name = context.getString(R.string.offline_title)
+                override val selectedIcon = Icons.Filled.CloudOff
+                override val unselectedIcon = Icons.Outlined.CloudOff
+                override val content = @Composable { OfflinePage(offlineManager) }
+            },
+            object : NavPage {
                 override val name = context.getString(R.string.help)
                 override val selectedIcon = Icons.Filled.Info
                 override val unselectedIcon = Icons.Outlined.Info
@@ -173,13 +182,14 @@ fun PojieScreenContent(
         ResourceSelectSheet(
             show = showResourceSheet,
             onDismiss = { showResourceSheet = false },
-            wifiInfo = WifiInfo(
+            wifiInfo = pendingWifiInfo ?: WifiInfo(
                 ssid = currentTargetSsid,
                 bssid = "",
                 level = 0,
                 capabilities = ""
             ),
             onConfirm = { allPasswords ->
+                pendingWifiInfo?.let { info -> app?.let { applyStrategy(context, it, info) } }
                 app?.pojieTask?.start(
                     PojieRunInfo(
                         ssid = currentTargetSsid,
@@ -393,4 +403,44 @@ fun HistoryRecoveryDialog(
         },
         dismissButton = null
     )
+}
+
+/**
+ * Tunes the attempt settings for the security type of [wifiInfo] and writes the
+ * reasoning to the run log, so the user can see why a profile was chosen.
+ */
+private fun applyStrategy(
+    context: android.content.Context,
+    app: ToolboxApp,
+    wifiInfo: WifiInfo
+) {
+    val advice = StrategyAdvisor.advise(
+        profile = StrategyAdvisor.profileFromCapabilities(wifiInfo.capabilities, wifiInfo.level),
+        currentMaxTryTime = app.pojieConfig.maxTryTime,
+        currentTimeout = app.pojieConfig.timeout,
+        currentFailureFlag = app.pojieConfig.failureFlag
+    )
+    val updated = app.pojieConfig.copy(
+        maxTryTime = advice.maxTryTime,
+        timeout = advice.timeout,
+        failureFlag = advice.failureFlag
+    )
+    if (updated != app.pojieConfig) app.pojieTask.update(updated)
+
+    app.logState.addLog(context.getString(R.string.strategy_applied, wifiInfo.ssid))
+    advice.notes.forEach { note ->
+        app.logState.addLog(context.getString(note.stringRes()))
+    }
+}
+
+private fun StrategyAdvisor.Note.stringRes(): Int = when (this) {
+    StrategyAdvisor.Note.OPEN_NETWORK -> R.string.strategy_open
+    StrategyAdvisor.Note.WEP_LEGACY -> R.string.strategy_wep
+    StrategyAdvisor.Note.WPA3_SAE_SLOW -> R.string.strategy_wpa3_unsupported
+    StrategyAdvisor.Note.WPA3_TRANSITION -> R.string.strategy_wpa3_transition
+    StrategyAdvisor.Note.ENTERPRISE_UNSUPPORTED -> R.string.strategy_enterprise
+    StrategyAdvisor.Note.WEAK_SIGNAL -> R.string.strategy_weak_signal
+    StrategyAdvisor.Note.OFFLINE_RECOMMENDED -> R.string.strategy_offline
+    StrategyAdvisor.Note.LONG_PASSWORDS_LIKELY -> R.string.strategy_long
+    StrategyAdvisor.Note.FAST_PROFILE -> R.string.strategy_fast
 }

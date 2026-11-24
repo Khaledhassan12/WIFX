@@ -10,12 +10,8 @@ object LocaleConfigs {
     )
 
     val list = listOf(
-        LocaleItem("", "跟随系统"),
-        LocaleItem("zh-CN", "中文（简体）"),
-        LocaleItem("zh-TW", "中文（繁體）"),
-        LocaleItem("lzh", "文言（華夏）", false),
+        LocaleItem("", "Follow system"),
         LocaleItem("en", "English"),
-        LocaleItem("en-CN", "Chinglish", false),
         LocaleItem("ar", "العربية")
     )
 

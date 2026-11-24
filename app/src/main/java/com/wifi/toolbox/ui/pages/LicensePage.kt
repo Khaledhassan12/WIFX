@@ -285,7 +285,7 @@ fun LicensePage(
                             }
                         }
 
-                        // 3. 展开/收起按钮
+                        // 3. Expand/collapse button
                         item {
                             Box(
                                 modifier = Modifier.fillMaxWidth(),

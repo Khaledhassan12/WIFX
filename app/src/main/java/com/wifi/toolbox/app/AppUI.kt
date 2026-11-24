@@ -19,9 +19,9 @@ class AppUI(private val context: Context,
     val snackFlow = _snackFlow.asSharedFlow()
 
     /**
-     * 显示弹窗
-     * @param t 标题
-     * @param s 内容
+     * Shows a dialog
+     * @param t Title
+     * @param s Content
      * @return none
      */
     fun alert(t: String, s: String) {
@@ -31,7 +31,7 @@ class AppUI(private val context: Context,
     }
 
     /**
-     * 关闭弹窗
+     * Dismisses the dialog
      * @param none
      * @return none
      */
@@ -42,10 +42,10 @@ class AppUI(private val context: Context,
     }
 
     /**
-     * 显示提示条
-     * @param m 消息
-     * @param l 按钮文字
-     * @param call 点击回调
+     * Shows a snackbar
+     * @param m Message
+     * @param l Button label
+     * @param call Click callback
      * @return none
      */
     fun snackbar(m: String, l: String? = context.getString(R.string.btn_disappear), call: (() -> Unit)? = null) {

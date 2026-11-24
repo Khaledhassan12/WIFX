@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
 
         enableEdgeToEdge()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-            window.isNavigationBarContrastEnforced = false //小米设备导航栏修复
+            window.isNavigationBarContrastEnforced = false // Xiaomi navigation bar fix
 
         ShizukuUtil.initialize(applicationContext)
 

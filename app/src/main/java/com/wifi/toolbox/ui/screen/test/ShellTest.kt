@@ -48,8 +48,8 @@ fun ShellTest(viewModel: TestViewModel, modifier: Modifier = Modifier) {
     val actionChips = listOf(
         ActionChipItem(Icons.Filled.Search, stringResource(R.string.check_id), "id"),
         ActionChipItem(Icons.Filled.Build, stringResource(R.string.fix_hidden_api), "settings put global hidden_api_policy 1"),
-        ActionChipItem(Icons.Filled.Link, stringResource(R.string.connect_wifi), "cmd wifi connect-network 名称 wpa2 密码"),
-        ActionChipItem(Icons.Filled.Radar, stringResource(R.string.scan_wifi), "sh -c \"cmd wifi start-scan && echo 3秒后获取结果 && sleep 3 && cmd wifi list-scan-results\""),
+        ActionChipItem(Icons.Filled.Link, stringResource(R.string.connect_wifi), "cmd wifi connect-network <SSID> wpa2 <password>"),
+        ActionChipItem(Icons.Filled.Radar, stringResource(R.string.scan_wifi), "sh -c \"cmd wifi start-scan && echo waiting 3s && sleep 3 && cmd wifi list-scan-results\""),
         ActionChipItem(Icons.Filled.Timelapse, stringResource(R.string.wait_10s), "sh -c \"for i in $(seq 1 10); do echo \$i; sleep 1; done\""),
         ActionChipItem(Icons.AutoMirrored.Filled.ManageSearch, stringResource(R.string.wifi_logcat), "sh -c \"logcat -c && logcat -s \\\"WifiService:D\\\" \\\"wpa_supplicant:D\\\" \\\"DhcpClient:D\\\"\"")
     )

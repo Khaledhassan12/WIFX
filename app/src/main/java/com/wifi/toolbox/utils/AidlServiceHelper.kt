@@ -42,12 +42,12 @@ object AidlServiceHelper {
     }
 
     /**
-     * 执行命令
-     * @param app ToolboxApp上下文
-     * @param command 命令文本
-     * @param onOutputReceived 当接收到输出时的回调函数
-     * @param onCommandFinished 当命令全部结束时的回调函数
-     * @return 停止执行的函数
+     * Runs a command
+     * @param app ToolboxApp context
+     * @param command Command text
+     * @param onOutputReceived Callback invoked for each output line
+     * @param onCommandFinished Callback invoked when the command finishes
+     * @return A function that stops execution
      */
     fun executeCommand(
         app: ToolboxApp,
@@ -77,10 +77,10 @@ object AidlServiceHelper {
     }
 
     /**
-     * 同步执行命令，等待全部执行完毕后返回输出结果
-     * @param app ToolboxApp上下文
-     * @param command 命令文本
-     * @return CompletableFuture 异步返回命令执行的完整输出
+     * Runs a command synchronously and returns its full output.
+     * @param app ToolboxApp context
+     * @param command Command text
+     * @return CompletableFuture with the full command output
      */
     fun executeCommandSync(app: ToolboxApp, command: String): CommandRunner.CommandResult {
         val future = CompletableFuture<CommandRunner.CommandResult?>()

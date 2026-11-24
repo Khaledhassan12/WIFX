@@ -298,9 +298,9 @@ class AidlService : RootService() {
         }
 
         /**
-         * 获取已保存的Wifi列表
-         * 此代码借鉴（ctrlCV）自zacharee/WiFiList项目
-         * @return 获取到的wifi列表List<WifiConfiguration>
+         * Returns the saved Wi-Fi list
+         * Adapted from the zacharee/WiFiList project
+         * @return Saved networks as List<WifiConfiguration>
          * */
         @SuppressLint("PrivateApi")
         @Suppress("DEPRECATION", "UNCHECKED_CAST")
@@ -344,7 +344,7 @@ class AidlService : RootService() {
                     }
 
                     Build.VERSION.SDK_INT >= 29 -> {
-                        //注：这里测试android10模拟器获取不到（也许这就是为什么WifiList的minsdk是30吧…）
+                        // Note: not available on the Android 10 emulator (maybe why WiFiList requires minSdk 30)
                         try {
                             try {
                                 base.getMethod(
@@ -400,7 +400,7 @@ class AidlService : RootService() {
                 if (resultList.isEmpty()) throw Exception("empty list")
                 return resultList.distinctBy { it.networkId }
             } catch (e: Exception) {
-                //这里兜个底，密码不要了其实也可以的
+                // Fallback: dropping the password is acceptable here
                 Log.w("ShizukuUtil", e.stackTraceToString())
                 return getSavedWifiListOld()
             }

@@ -141,12 +141,12 @@ fun HomePagePreview() {
                 tryIndex = 0,
                 lastTryTime = 0,
                 retryCount = 0,
-                textTip = "加载中",
+                textTip = "Loading...",
             )
         )
         override val finishedInfo: SnapshotStateMap<String, String> =
             SnapshotStateMap<String, String>().apply {
-                put("TP-LINK_5G", "已完成")
+                put("TP-LINK_5G", "Finished")
             }
 
         override fun reload() {}

@@ -13,6 +13,10 @@ class SettingsManager(context: Context) {
     private val prefs =
         context.getSharedPreferences(GlobalSettings.PREFS_NAME, Context.MODE_PRIVATE)
 
+    private companion object {
+        const val LOCALE_SCHEME_KEY = "locale_scheme_v2"
+    }
+
     var global by mutableStateOf(load())
         private set
 
@@ -29,8 +33,27 @@ class SettingsManager(context: Context) {
                 GlobalSettings.START_AIDL_SERVICE_ON_BOOT,
                 false
             ),
-            language = prefs.getInt(GlobalSettings.LANGUAGE, 0)
+            language = migrateLanguage(prefs.getInt(GlobalSettings.LANGUAGE, 0))
         )
+    }
+
+    /**
+     * Older builds had zh-CN/zh-TW/lzh/Chinglish entries in the language list.
+     * Those locales were removed, so remap a saved index to the new list once
+     * (English = 1, Arabic = 2, anything else = follow system).
+     */
+    private fun migrateLanguage(index: Int): Int {
+        if (prefs.getBoolean(LOCALE_SCHEME_KEY, false)) return index
+        val migrated = when (index) {
+            4 -> 1
+            6 -> 2
+            else -> 0
+        }
+        prefs.edit {
+            putInt(GlobalSettings.LANGUAGE, migrated)
+            putBoolean(LOCALE_SCHEME_KEY, true)
+        }
+        return migrated
     }
 
     fun update(action: (GlobalSettings) -> GlobalSettings) {

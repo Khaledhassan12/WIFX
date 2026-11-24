@@ -3,6 +3,7 @@ package com.wifi.toolbox.utils
 import android.content.Context
 import android.webkit.*
 import com.wifi.toolbox.R
+import com.wifi.toolbox.ToolboxApp
 import com.wifi.toolbox.structs.WifiInfo
 import kotlinx.coroutines.*
 import kotlin.coroutines.resume
@@ -83,7 +84,6 @@ object ResourcesRunner {
 
                     continuation.invokeOnCancellation {
                         webView.stopLoading()
-                        webView.destroy()
                     }
                 }
             }
@@ -100,7 +100,8 @@ object ResourcesRunner {
         resources: List<com.wifi.toolbox.structs.PojieResource>,
         wifiInfo: WifiInfo,
         onProgress: (Int, Int) -> Unit,
-        onLog: (String) -> Unit
+        onLog: (String) -> Unit,
+        advice: com.wifi.toolbox.offline.StrategyAdvisor.Advice? = null
     ): List<String> = coroutineScope {
         val allLists = mutableListOf<List<String>>()
         resources.forEachIndexed { index, res ->
@@ -125,7 +126,23 @@ object ResourcesRunner {
                 if (scriptIt.hasNext()) combined.add(scriptIt.next()) else it.remove()
             }
         }
-        val result = combined.asSequence().distinct().filter { it.length >= 8 }.toList()
+        val candidates = combined.asSequence()
+            .distinct()
+            .filter { it.length >= 8 }
+            .toList()
+        // Order by hit probability so the most likely password is tried first.
+        val learned = (context.applicationContext as? ToolboxApp)
+            ?.pojieHistory?.historyFlow?.value
+            ?.mapNotNull { it.password }
+            ?.distinct()
+            .orEmpty()
+        val result = CandidateScorer.order(
+            candidates = candidates,
+            ssid = wifiInfo.ssid,
+            learned = learned,
+            preferLongPasswords = advice?.preferLongPasswords == true,
+            preferNumeric = advice?.preferNumeric == true
+        )
         onLog(context.getString(R.string.all_execution_finished, result.size))
         result
     }

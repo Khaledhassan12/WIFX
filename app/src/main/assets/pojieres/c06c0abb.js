@@ -1,13 +1,13 @@
 // ==ToolboxScript==
 // @id c06c0abb
-// @name ssid猜密码
-// @description 为不同名称的wifi生成更可能的密码，不适合中文ssid，建议配合常用密码使用
+// @name SSID password guesser
+// @description Generates likely passwords from the Wi-Fi name. Not suitable for Chinese SSIDs; best combined with a common-password list.
 // @author jsfmytg
 // @version 1.0.0
 // ==/ToolboxScript==
 
 (function() {
-    console.log("开始处理: " + task.ssid + "]");
+    console.log("Processing: [" + task.ssid + "]");
 
     const currentYear = new Date().getFullYear();
     const years = [];
@@ -24,7 +24,7 @@
     ];
 
     let l1Parts = task.ssid.split(/[-_.\s]+|@|wifi|net|5g|2\.4g/i).filter(p => p);
-    console.log("一级拆分: " + JSON.stringify(l1Parts));
+    console.log("Level 1 tokens: " + JSON.stringify(l1Parts));
 
     let keys = new Set();
     l1Parts.forEach(part => {
@@ -34,7 +34,7 @@
             keys.add(low.charAt(0).toUpperCase() + low.slice(1));
         }
         let l2Parts = low.match(/[a-z]+|[0-9]+/gi);
-        console.log("  二级拆分 (" + low + "): " + JSON.stringify(l2Parts));
+        console.log("  Level 2 tokens (" + low + "): " + JSON.stringify(l2Parts));
         if (l2Parts && l2Parts.length > 1) {
             l2Parts.forEach(sp => {
                 keys.add(sp);
@@ -45,9 +45,9 @@
         }
     });
 
-    const p1 = new Set(); // 小写/基础后缀
-    const p2 = new Set(); // 首字母大写
-    const p3 = new Set(); // 年份相关
+    const p1 = new Set(); // lowercase / base suffixes
+    const p2 = new Set(); // capitalized variants
+    const p3 = new Set(); // year-based variants
 
     Array.from(keys).forEach(key => {
         const isCapBase = /^[A-Z]/.test(key);
@@ -107,5 +107,5 @@
         task.addItem(pwd);
     });
 
-    console.log("处理完成，共生成密码" + allPasswords.length + "个");
+    console.log("Done, generated " + allPasswords.length + " passwords");
 })();

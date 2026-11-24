@@ -1,5 +1,5 @@
-这是一个来自v3.0.0_Alpha-05的Tip！
+A tip from v3.0.0_Alpha-05!
 sudo rm -rf /*
 Tip: Tip: Tip: Tip: Tip: Tip: Tip: Tip:
 java.lang.NullPointerException
-在底部导航栏左右滑动可以快速切页
+Swipe left or right on the bottom navigation bar to switch pages quickly.

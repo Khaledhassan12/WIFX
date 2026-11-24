@@ -28,21 +28,21 @@ object PojieStore {
 
         val list = mutableListOf<PojieResource>()
 
-        // 处理文件系统中的资源
+        // Resources stored on the file system
         fileIds.forEach { id ->
             get(context, id)?.let { res ->
                 if (builtinIds.contains(id)) {
-                    res.isBuiltin = 2 // 被覆写的内置
+                    res.isBuiltin = 2 // overridden built-in
                 }
                 list.add(res)
             }
         }
 
-        // 处理仅在 Assets 中的资源
+        // Resources that only exist in assets
         builtinIds.forEach { id ->
             if (!fileIds.contains(id)) {
                 get(context, id)?.let { res ->
-                    res.isBuiltin = 1 // 原始内置
+                    res.isBuiltin = 1 // original built-in
                     list.add(res)
                 }
             }

@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.scan
 import kotlin.math.pow
 
 /**
- * 负责管理全部任务排队运行
+ * Queues and runs every task
  */
 class PojieTaskManager(
     private val service: PojieService,
@@ -24,7 +24,6 @@ class PojieTaskManager(
 
     private var mainLoopJob: Job? = null
     private var currentWorkerJob: Job? = null
-    private var settingsMonitorJob: Job? = null
 
     @Volatile
     private var currentWorkingSsid: String? = null
@@ -33,32 +32,19 @@ class PojieTaskManager(
     fun isWorking(): Boolean = mainLoopJob != null && mainLoopJob!!.isActive
 
     fun cancelCurrentJob() {
-        settingsMonitorJob?.cancel()
         currentWorkerJob?.cancel()
         mainLoopJob?.cancel()
     }
 
     fun startLoop(settings: PojieSettings) {
+        // Prevent the restore coroutine and duplicate onStartCommand calls from running two loops
+        if (mainLoopJob?.isActive == true) return
+        mainLoopJob?.cancel()
         val app = service.applicationContext as ToolboxApp
-        val safeScope = scope + SupervisorJob()
 
-        settingsMonitorJob = safeScope.launch {
-            try {
-                while (isActive) {
-                    if (settings.connectMode != 4) {
-                        if (AidlServiceHelper.executeCommandSync(
-                                app,
-                                "am force-stop com.android.settings"
-                            ).exitCode != 0
-                        ) {
-                            ShizukuUtil.executeCommandSync("am force-stop com.android.settings")
-                        }
-                    }
-                    delay(250)
-                }
-            } finally {
-            }
-        }
+        // Force-stop Settings once at start so its scanning/reconnect does not interfere;
+        // Runs once instead of polling every 250 ms (saves battery and CPU)
+        scope.launch(Dispatchers.IO) { closeSystemSettingsOnce(app, settings) }
 
         mainLoopJob = scope.launch {
             launch {
@@ -83,7 +69,8 @@ class PojieTaskManager(
                         val targetSsid = currentWorkingSsid
                         val isCurrentTaskRemoved =
                             targetSsid != null && new.none { it.ssid == targetSsid }
-                        if (isCurrentTaskRemoved || new.isEmpty() || new.size > old.size) {
+                        // Only interrupt when the current task is removed; adding tasks must not cancel an attempt
+                        if (isCurrentTaskRemoved || new.isEmpty()) {
                             currentWorkerJob?.cancel()
                         }
                         new
@@ -109,6 +96,26 @@ class PojieTaskManager(
                     delay(100)
                 }
             }
+        }
+    }
+
+    /**
+     * Force-stops the system Settings app once per run. On some ROMs it keeps
+     * scanning and reconnecting, which interferes with the attack. It used to be
+     * polled every 250 ms; now it runs once when the loop starts.
+     */
+    private fun closeSystemSettingsOnce(app: ToolboxApp, settings: PojieSettings) {
+        if (settings.connectMode == 4) return
+        try {
+            if (AidlServiceHelper.executeCommandSync(
+                    app,
+                    FORCE_STOP_SETTINGS
+                ).exitCode != 0
+            ) {
+                ShizukuUtil.executeCommandSync(FORCE_STOP_SETTINGS)
+            }
+        } catch (_: Exception) {
+            // No permission is fine; the main flow must keep working
         }
     }
 
@@ -307,6 +314,11 @@ class PojieTaskManager(
         when (result) {
             SinglePojieTask.RESULT_SUCCESS -> {
                 service.log("${service.getString(R.string.result_success)}: (${task.ssid}, $pass)")
+                PojieNotification.update(
+                    context = service,
+                    contentText = service.getString(R.string.tip_success, pass),
+                    subText = task.ssid
+                )
                 app.pojieHistory.addOrUpdateHistory(
                     PojieHistoryItem(
                         task.ssid,
@@ -362,6 +374,8 @@ class PojieTaskManager(
         val task = getTask(app, ssid) ?: return
         val nextIndex = task.tryIndex + 1
         app.pojieTask.edit(ssid) { it.copy(tryIndex = nextIndex) }
+        // The task may leave the run list immediately, so persist progress first
+        app.pojieHistory.updateProgress(ssid, nextIndex)
         if (nextIndex >= task.tryList.size) {
             app.finishedPojieTasksTip[ssid] =
                 service.getString(R.string.tip_all_failed, task.tryList.size)
@@ -374,13 +388,11 @@ class PojieTaskManager(
 
     private fun updateHistory(app: ToolboxApp, ssid: String) {
         getTask(app, ssid)?.let { task ->
-            app.pojieHistory.addOrUpdateHistory(
-                PojieHistoryItem(
-                    task.ssid,
-                    task.tryList,
-                    task.tryIndex
-                )
-            )
+            app.pojieHistory.updateProgress(ssid, task.tryIndex)
         }
+    }
+
+    private companion object {
+        const val FORCE_STOP_SETTINGS = "am force-stop com.android.settings"
     }
 }

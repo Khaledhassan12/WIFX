@@ -11,16 +11,16 @@ import android.net.wifi.WifiManager
 import com.wifi.toolbox.ToolboxApp
 import com.wifi.toolbox.structs.WifiLogData
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 
 class WifiBroadcastService(private val context: Context) : AutoCloseable {
 
     private val app = context.applicationContext as ToolboxApp
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
-    private val _logFlow = MutableSharedFlow<WifiLogData>(extraBufferCapacity = 64)
-    val logFlow = _logFlow.asSharedFlow()
+    private val events = Channel<WifiLogData>(Channel.UNLIMITED)
+    val logFlow = events.receiveAsFlow()
 
     private var connectStartTime: Long = 0L
     private var handshakeTimeoutJob: Job? = null
@@ -64,6 +64,13 @@ class WifiBroadcastService(private val context: Context) : AutoCloseable {
         cancelTimeout()
     }
 
+    /** Drops events left over from the previous attempt */
+    fun drainPendingEvents() {
+        while (events.tryReceive().isSuccess) {
+            // drain
+        }
+    }
+
     private fun startHandshakeTimeoutMonitor() {
         if (handshakeTimeoutJob != null) return
 
@@ -71,7 +78,7 @@ class WifiBroadcastService(private val context: Context) : AutoCloseable {
         handshakeTimeoutJob = scope.launch {
             delay(timeout)
             if (isActive) {
-                _logFlow.tryEmit(
+                events.trySend(
                     WifiLogData(
                         WifiLogData.EVENT_HANDSHAKE,
                         connectStartTime,
@@ -90,7 +97,7 @@ class WifiBroadcastService(private val context: Context) : AutoCloseable {
     }
 
     private fun emitEvent(eventId: Int) {
-        _logFlow.tryEmit(
+        events.trySend(
             WifiLogData(
                 eventId,
                 connectStartTime,

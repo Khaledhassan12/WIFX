@@ -1,12 +1,12 @@
 /**
- * 本文件完全借鉴自小米HyperOS设置的关于页
- * 这么小的项目应该没啥大事吧……（2026/01/23）
+ * Inspired by the About page background of Xiaomi HyperOS Settings.
+ * Small project, hopefully nobody minds (2026/01/23).
  */
 
 uniform vec2 uResolution;
 
 
-// 新版参数
+// New parameters
 uniform float uAnimTime;
 uniform vec4 uBound;
 uniform float uTranslateY;
