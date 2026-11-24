@@ -1,0 +1,39 @@
+name: Build Debug APK
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: Collect APK
+        run: |
+          mkdir -p artifacts
+          find app/build/outputs/apk/debug -name "*.apk" -exec cp {} artifacts/wifi-x-debug.apk \;
+          ls -lh artifacts
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: wifi-x-debug-apk
+          path: artifacts/*.apk
+          retention-days: 30
