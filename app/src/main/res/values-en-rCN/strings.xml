@@ -30,7 +30,7 @@
     <string name="other">other</string>
     <string name="search_tip">search word...</string>
     <string name="search">search</string>
-    <string name="search_nothing_tip">¯\_(ツ)_/¯\ntry other word</string>
+    <string name="search_nothing_tip">¯\\_(ツ)_/¯\ntry other word</string>
     <string name="expand_list_number">look all %1$d item</string>
     <string name="un_expand">fold</string>
     <string name="description">talk</string>
@@ -64,10 +64,10 @@
     <string name="password_string">pass: %1$s</string>
     <string name="confirm_delete_tip">kill %1$s record?</string>
     <string name="confirm_delete">sure kill</string>
-    <string name="history_nothing">¯\_(ツ)_/¯\nno record</string>
+    <string name="history_nothing">¯\\_(ツ)_/¯\nno record</string>
     <string name="run_config">run set</string>
     <string name="run_output">run out</string>
-    <string name="resources_nothing">¯\_(ツ)_/¯\nno source, click + add</string>
+    <string name="resources_nothing">¯\\_(ツ)_/¯\nno source, click + add</string>
     <string name="save_failed">save fail</string>
     <string name="no_choose_tip">please choose</string>
     <string name="no_choose_tip_list">--please choose--</string>
@@ -252,7 +252,7 @@
     <string name="error_script_id_not_found">script no id</string>
     <string name="error_json_id_missing">info no id</string>
     <string name="error_json_content_missing">info no content</string>
-    <string name="error_id_format">id must fit /^[a-zA-Z][a-zA-Z0-9._-]+\$/</string>
+    <string name="error_id_format">id must fit /^[a-zA-Z][a-zA-Z0-9._-]+$/</string>
     <string name="default_alert_title">tip</string>
     <string name="task_preparing">readying</string>
     <string name="config_single_try">one try</string>

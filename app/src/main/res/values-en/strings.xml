@@ -29,7 +29,7 @@
     <string name="other">Other</string>
     <string name="search_tip">Search...</string>
     <string name="search">Search</string>
-    <string name="search_nothing_tip">¯\_(ツ)_/¯\nTry another keyword</string>
+    <string name="search_nothing_tip">¯\\_(ツ)_/¯\nTry another keyword</string>
     <string name="expand_list_number">View all %1$d</string>
     <string name="un_expand">Collapse</string>
     <string name="description">Description</string>
@@ -83,7 +83,7 @@
     <string name="connect_wifi_mode">Connect WiFi</string>
     <string name="scan_wifi_mode">Scan WiFi</string>
     <string name="allow_use_command">Allow Command</string>
-    <string name="allow_use_command_tip">Use \'cmd wifi start-scan\' if API fails</string>
+    <string name="allow_use_command_tip">Use 'cmd wifi start-scan' if API fails</string>
     <string name="enable_wifi_mode">WiFi Toggle</string>
     <string name="command_method">CMD Method</string>
     <string name="running_behavior">Behavior</string>
@@ -220,7 +220,7 @@
     <string name="log_logcat_started">Logcat started</string>
     <string name="log_broadcast_started">Broadcast started</string>
     <string name="connect_mode_empty">Connect mode empty, check settings</string>
-    <string name="broadcast_not_support_handshake">Broadcast mode doesn\'t support handshake limit. Use timeout or Logcat.</string>
+    <string name="broadcast_not_support_handshake">Broadcast mode doesn't support handshake limit. Use timeout or Logcat.</string>
     <string name="log_flow_uninitialized">Log flow uninit</string>
     <string name="running">Running</string>
     <string name="forget_network_log">Forget: %1$s</string>
@@ -251,7 +251,7 @@
     <string name="error_script_id_not_found">Script ID missing</string>
     <string name="error_json_id_missing">ID missing</string>
     <string name="error_json_content_missing">Content missing</string>
-    <string name="error_id_format">ID must match /^[a-zA-Z][a-zA-Z0-9._-]+\$/</string>
+    <string name="error_id_format">ID must match /^[a-zA-Z][a-zA-Z0-9._-]+$/</string>
     <string name="default_alert_title">Alert</string>
     <string name="task_preparing">Preparing</string>
     <string name="config_single_try">Single Try</string>
